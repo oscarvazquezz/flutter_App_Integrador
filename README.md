@@ -5,6 +5,4 @@ Este proyecto tiene como objetivo mostrar las nuevas armas que tiene el juego wa
 El patrocinador es el DANKER  ya que el tiene dinero.
 
 
-
-## Getting Started
-
+![IMAGE](https://i.imgur.com/EJaJ5C2.png)
