@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'Router/router_provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:localstorage/localstorage.dart';
 
 void main() {
+  final LocalStorage storage = new LocalStorage('todo_app');
   runApp(MyApp());
 }
 

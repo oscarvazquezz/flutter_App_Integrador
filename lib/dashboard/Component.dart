@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 
 class ComponentElements extends StatelessWidget{
-  
+    
+    final String text;
+    final String urlImage;
+    final String CW;
+    final String NumeroPosicion;
+    ComponentElements(this.urlImage,this.text,this.CW,this.NumeroPosicion);
+
     @override
     Widget build(BuildContext context) {
       return Container(
@@ -37,7 +43,7 @@ class ComponentElements extends StatelessWidget{
                           shape: BoxShape.rectangle,
                           boxShadow: <BoxShadow>[
                             BoxShadow (
-                              color: Colors.blueGrey,
+                              color: Color(0xFF222327),
                             )
                           ]
                       ),
@@ -52,20 +58,21 @@ class ComponentElements extends StatelessWidget{
                                     left: 10.0,
                                     right:0.0
                                 ),
-                                  child:Icon(Icons.arrow_upward_outlined,color:Colors.orange,size:30),
+                                  child:Icon(Icons.arrow_upward_outlined,color:Colors.green[800],size:30),
                                 ),
                                 Container(
                                   
                                   width: 220,
+                                 
                                   margin: EdgeInsets.only(
                                     top: 10.0,
-                                    left: 160.0,
+                                    left: 150.0,
                                     right:0.0
                                   ),
                                   child:Text(
-                                    "Mejor TTK Y RECOIL ",
+                                    this.text,
                                     style: TextStyle(color: Colors.white, fontSize: 20),
-                                    textAlign: TextAlign.center,
+                                    textAlign: TextAlign.right,
                                     overflow: TextOverflow.ellipsis,
                                   )
                                 )
@@ -79,7 +86,7 @@ class ComponentElements extends StatelessWidget{
                               right:0.0
                             ),
                             child: Image(
-                              image: NetworkImage('https://cdn.ligadosgames.com/imagens/m4a1111.jpg'),
+                              image: NetworkImage(this.urlImage),
                               height: 200,
                               width: 400,
                             ),
@@ -94,8 +101,8 @@ class ComponentElements extends StatelessWidget{
                                     right:0.0
                                 ),
                                   child:Text(
-                                    "#1",
-                                    style: TextStyle(color: Colors.red, fontSize: 20),
+                                    "#"+this.NumeroPosicion,
+                                    style: TextStyle(color: Color(0xFFFF5F04), fontSize: 20),
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
@@ -109,7 +116,7 @@ class ComponentElements extends StatelessWidget{
                                   ),
                                   alignment: new FractionalOffset(0.8, 0.0),
                                   child:Text(
-                                    "CW",
+                                    this.CW,
                                     style: TextStyle(color: Colors.white, fontSize: 20),
                                     textAlign: TextAlign.center,
                                     overflow: TextOverflow.ellipsis,
@@ -139,7 +146,7 @@ class ComponentElements extends StatelessWidget{
                       shape: BoxShape.rectangle,
                       boxShadow: <BoxShadow>[
                         BoxShadow (
-                          color: Colors.blue,
+                          color: Color(0xFF036FF4),
                         )
                       ]
                     ),

@@ -12,7 +12,7 @@ class RouterProvider {
     print(settings.name);
     switch (settings.name){
       case '/':
-          return MaterialPageRoute(builder: (_) => Dashboard());
+          return MaterialPageRoute(builder: (_) =>Dashboard());
       case '/dashboard':
       //Aqui valida si lo que recibe es del tipo correcto en caso contrario manda una pagina de error con el formato.
           if(args is Object)

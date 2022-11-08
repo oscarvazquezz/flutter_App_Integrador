@@ -1,7 +1,11 @@
+import 'package:c3_1/dashboard/dashboard.dart';
 import 'package:flutter/material.dart';
+
+import 'package:localstorage/localstorage.dart';
 
 class LoginComponent extends StatelessWidget{
    // crossAxisAlignment: CrossAxisAlignment.start,
+   // Obtain shared preferences.
   @override
   Widget build(BuildContext context) {
     
@@ -14,8 +18,8 @@ class LoginComponent extends StatelessWidget{
               begin: Alignment.topCenter,
               end: Alignment(0.0, 1.0), // 10% of the width, so there are ten blinds.
               colors: const <Color>[
-                Color(0xff2e353d),
-                Color(0xff2e353d),
+                Color(0xFF2E353D),
+                Color(0xFF2E353D),
               ], // red to yellow
               tileMode: TileMode.repeated, // repeats the gradient over the canvas
             ),
@@ -190,12 +194,20 @@ class LoginComponent extends StatelessWidget{
                             ),
                             
                             child: RaisedButton(
-                              onPressed: () {},
+                              onPressed: (){
+                                LocalStorage storage = new LocalStorage('todo_app');
+                                storage.setItem('logged_in',true);
+                                
+                                Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => Dashboard()),
+                                );
+                              },
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0)
                               ),
                               padding: EdgeInsets.all(0.0),
-                              color:Colors.blue,
+                              color:Color(0xFF036FF4),
 
                               child: Container(
                                 constraints:
@@ -231,7 +243,7 @@ class LoginComponent extends StatelessWidget{
               alignment: Alignment.topLeft,
               child: FloatingActionButton(
                 child: Icon(Icons.help,size:50),
-                backgroundColor: Colors.orange[900],
+                backgroundColor: Color(0xFFFF5F04),
                 foregroundColor: Colors.white,
                 elevation: 100.0,
                 onPressed: () {},
@@ -247,5 +259,3 @@ class LoginComponent extends StatelessWidget{
     );
   }
 }
-
-

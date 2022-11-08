@@ -1,20 +1,53 @@
+import 'package:c3_1/Login/Login.dart';
 import 'package:c3_1/dashboard/Card.dart';
 import 'package:c3_1/dashboard/Component.dart';
 import 'package:flutter/material.dart';
+import 'package:localstorage/localstorage.dart';
 
 class Dashboard extends StatelessWidget{
    
-   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+  var logged_in;
+  var mensajeBienvenido;
+  var iconProfile = null;
+  var profile = "";
+  List<Map> objst = [{"image":"https://cdn.ligadosgames.com/imagens/m4a1111.jpg","text":"Mejor TTK Y RECOIL","CW":"MAN","NumeroPosicion":"1"},
+                     {"image":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDeagdsrkdrwTyfxZt9crjyVTAM4fkQe_ZTs8Q0a95bepWBI285tt_AC5yEXcs0A_cO3I&usqp=CAU","text":"Mejor DPS","CW":"CW","NumeroPosicion":"2"}];
+  
+  dynamic _texto ;
 
    @override
    Widget build(BuildContext context) {
+     
+     LocalStorage storage = new LocalStorage('todo_app');
+     
+     final logged = storage.getItem('logged_in');
+     print("d $logged");
+     if (logged == null){
+       logged_in = false;
+       _texto = "Log in";
+       mensajeBienvenido = "";
+     }else if (logged == true){
+       logged_in = true;
+       _texto = "Cerrar sesión";
+       mensajeBienvenido = "!Hola! El_Danker";
+       profile = "Profile";
+       iconProfile = Icons.account_circle;
+     }else{
+       logged_in = false;
+       _texto = "Log in";
+       mensajeBienvenido = "";
+     }
+    
      return Scaffold(
         key: scaffoldKey,
         appBar: AppBar(
             leadingWidth: 20,
+            elevation: 0,
+            bottomOpacity: 0.0,
+            backgroundColor:Color(0xff2e353d),
             title:Text(
-                    "!Hola! El_Danker",
-                    
+                    mensajeBienvenido,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(color: Colors.white, fontSize: 25)
                 ),
@@ -27,12 +60,14 @@ class Dashboard extends StatelessWidget{
                     right: 20.0
                 ),
                 child:RaisedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    print(logged_in);
+                  },
                   shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0)
                         ),
                   padding: EdgeInsets.all(0.0),
-                  color:Colors.blue,
+                  color:Color(0xFF036FF4),
 
                   child: Container(
                       constraints:
@@ -50,22 +85,18 @@ class Dashboard extends StatelessWidget{
             ],
 
             leading: Column(
-              children:[
-              
+              children:[          
               Container(
                 child:IconButton(
                   icon: Icon(Icons.more_vert),
                   onPressed: (){
                       if(scaffoldKey.currentState!.isDrawerOpen){
-                          
                           //close drawer, if drawer is open
                       }else{
                           scaffoldKey.currentState!.openDrawer();
                           //open drawer, if drawer is closed
                       }
-                   
-                  },
-                
+                  },          
                 ),
               ),
               
@@ -74,14 +105,21 @@ class Dashboard extends StatelessWidget{
               
           ),
 
-
         drawer:Drawer(
-          child: Column(
+          
+          child: Container(
+          color: Colors.black,
+          width: double.infinity,
+          height: double.infinity,
+
+            child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
+                   
             children: [
               Container(
                 height: 130,
+                
                 child: DrawerHeader(
                     decoration: BoxDecoration(color: Colors.blue),
                     child: Text(
@@ -97,16 +135,37 @@ class Dashboard extends StatelessWidget{
                   padding: EdgeInsets.zero, 
                   children: [
                     ListTile(
-                    leading: Icon(Icons.account_circle), title: Text('Profile')),
-                    ListTile(leading: Icon(Icons.settings), title: Text('Settings')),
-                    ListTile(leading: Icon(Icons.close), title: Text('Cerrar Sesión')),
+                    leading: Icon(iconProfile), title: Text(profile)),
+                    
+                    ListTile(
+                      leading: Icon(Icons.login), title: Text('$_texto'),
+                      onTap: ()async{
+                        print(_texto);
+                        if (logged_in == false){
+                          storage.setItem('logged_in',false);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Login()),
+                          );
+                        }else{
+                          storage.setItem('logged_in',false);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Dashboard()),
+                          );
+                        }
+                      },                       
+                   ),   
                   ]
                 )
               )
             ]
+            ),
           )
         ),
-        body:Container(
+
+        body:SizedBox.expand(
+          child:Container(
 
           decoration: const BoxDecoration(
             gradient: const LinearGradient(
@@ -153,7 +212,7 @@ class Dashboard extends StatelessWidget{
                       decoration: InputDecoration(
                           
                           filled: true,
-                          fillColor: Colors.white,
+                          fillColor: Color(0xFFDDDEE4),
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.black, width: 0.0),
                           ),
@@ -174,16 +233,22 @@ class Dashboard extends StatelessWidget{
                   )
                 ),
 
-                Container(
-                  child: ComponentElements(),
-                ),
-
-                Container(
-                  margin: EdgeInsets.only(
-                      top: 20.0,           
+               Container(
+                  child: Column(
+                    children: objst.map(
+                      (i) => 
+                        Container(
+                          margin: EdgeInsets.only(
+                              top: 20.0,           
+                          ),
+                         
+                          child: ComponentElements(i["image"],i["text"],i["CW"],i["NumeroPosicion"]),
+                        )
+                       
+                    ).toList(),
                   ),
-                  child: ComponentElements(),
                 ),
+                
 
                 Container(
                   margin: EdgeInsets.only(
@@ -195,14 +260,14 @@ class Dashboard extends StatelessWidget{
                     children: [
                       Row(
                         children: [
-                          CardElements(),
-                          CardElements(),
+                          CardElements("SUBFUSIBLES"),
+                          CardElements("RIFLES DE ASALTO"),
                         ],
                       ),
                       Row(
                         children: [
-                          CardElements(),
-                          CardElements(),
+                          CardElements("ESCOPETA"),
+                          CardElements("FRANCOTIRADORES"),
                         ],
                       ),
 
@@ -212,7 +277,7 @@ class Dashboard extends StatelessWidget{
                             margin: EdgeInsets.only(
                               left: 100.0
                             ),
-                            child:  CardElements(),
+                            child:  CardElements("PISTOLAS Y OTROS"),
                           )
                         ],
                       ),
@@ -227,7 +292,6 @@ class Dashboard extends StatelessWidget{
                   ),
                 
                   width: 400,
-                  
                   alignment: Alignment.topLeft,
                   child: RaisedButton(
                     onPressed: () {},
@@ -235,7 +299,7 @@ class Dashboard extends StatelessWidget{
                         borderRadius: BorderRadius.circular(10.0)
                       ),
                     padding: EdgeInsets.all(0.0),
-                    color:Colors.orange[900],
+                    color:Color(0xFFFF5F04),
                     child: Container(
                         constraints:
                           BoxConstraints(maxWidth: 80.0, minHeight: 50.0),
@@ -255,7 +319,8 @@ class Dashboard extends StatelessWidget{
               ],
           ),
         ),
-      )
+       ), 
+      ),
       
      );
    }

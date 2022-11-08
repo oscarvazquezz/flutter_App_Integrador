@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 
 class CardElements extends StatelessWidget{
+
+  final String text ;
+  CardElements(this.text);
    
    @override
    Widget build(BuildContext context) {
      return Container(
-      child:Cards()
+      child:Cards(this.text)
      );
    }
 }
 
 class Cards extends StatelessWidget{
+  final String text ;
+  Cards(this.text);
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -25,7 +30,7 @@ class Cards extends StatelessWidget{
                     shape: BoxShape.rectangle,
                     boxShadow: <BoxShadow>[
                     BoxShadow (
-                        color: Colors.black,
+                        color: Color(0xFF1F2529),
                       )
                     ]
                   ),
@@ -41,8 +46,8 @@ class Cards extends StatelessWidget{
                                   height: 80,
                                   alignment: new FractionalOffset(0.5, 0.5),
                                   child: Text(
-                                      "SUBFUSIBLES",
-                                      style: TextStyle(color: Colors.white, fontSize: 20),
+                                      this.text,
+                                      style: TextStyle(color: Colors.white, fontSize: 17),
                                       textAlign: TextAlign.center,
                                       overflow: TextOverflow.ellipsis,
                                     ),
@@ -62,7 +67,7 @@ class Cards extends StatelessWidget{
                                     shape: BoxShape.rectangle,
                                     boxShadow: <BoxShadow>[
                                       BoxShadow (
-                                        color: Colors.blue,
+                                        color: Color(0xFF036FF4),
                                       )
                                     ]
                               ),
